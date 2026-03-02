@@ -82,7 +82,8 @@ class MainActivity : ComponentActivity() {
                             FlowsScreen3(
                                 Modifier,
                                 flowVm.timer,
-                                { flowVm.starTimer() }
+                                { flowVm.starTimer() },
+                                {flowVm.stopTimer()}
                             )
 
                         }
@@ -106,7 +107,7 @@ fun FlowsScreen(modifier: Modifier = Modifier, fc: Flow<Int>) {
 
     Column(Modifier, horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
 
-        Text("Cold Flows", fontSize = 32.sp, fontWeight = FontWeight.Bold)
+        Text("Cold Flows (Screen 1)", fontSize = 32.sp, fontWeight = FontWeight.Bold)
 
         Text("Flow 1 -> $f1", fontSize = 32.sp)
         Spacer(Modifier.size(12.dp))
@@ -155,7 +156,7 @@ fun FlowsScreen2(modifier: Modifier = Modifier, counterState : State<Int>,
 
     Column(Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
 
-        Text("Hot Flows", fontSize = 32.sp, fontWeight = FontWeight.Bold)
+        Text("Hot Flows (Screen 2)", fontSize = 32.sp, fontWeight = FontWeight.Bold)
 
         Text(
             "Flow 1 -> ${counterState.value}",
@@ -176,7 +177,8 @@ fun FlowsScreen2(modifier: Modifier = Modifier, counterState : State<Int>,
 fun FlowsScreen3(
     modifier: Modifier = Modifier,
     fc : StateFlow<Int>,
-    startTimer : () -> Unit) {
+    startTimer : () -> Unit,
+    stopTimer : () -> Unit) {
 
     var f1 by remember { mutableStateOf(0) }
     var f2 by remember { mutableStateOf(0)}
@@ -186,7 +188,7 @@ fun FlowsScreen3(
 
     Column(Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
 
-        Text("Hot Flows Screen 3", fontSize = 32.sp, fontWeight = FontWeight.Bold)
+        Text("Hot Flows (Screen 3)", fontSize = 32.sp, fontWeight = FontWeight.Bold)
 
         Text(
             "Flow 1 -> $f1",
@@ -221,12 +223,20 @@ fun FlowsScreen3(
             Text("Collect for T2", fontSize = 32.sp)
 
         }
+        Spacer(Modifier.size(12.dp))
 
         Button(onClick = {
-
             startTimer()
         }) {
             Text("Start timer", fontSize = 32.sp)
+
+        }
+        Spacer(Modifier.size(12.dp))
+
+        Button(onClick = {
+            stopTimer()
+        }) {
+            Text("Stop timer", fontSize = 32.sp)
 
         }
 

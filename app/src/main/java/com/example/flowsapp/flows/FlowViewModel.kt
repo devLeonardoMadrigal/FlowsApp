@@ -11,8 +11,8 @@ import kotlinx.coroutines.launch
 
 class FlowViewModel : ViewModel() {
     /*
-    Cold flows: ->
-    Hot flows ->
+    Cold flows: -> Start from scratch (Collector starts a new execution)
+    Hot flows -> Use the latest value
         ->they retain the latest information
         ->They don't start from scratch every time a new collector calls them
         -> There are two types:
@@ -52,6 +52,10 @@ class FlowViewModel : ViewModel() {
             }
 
         }
+    }
+
+    fun stopTimer(){
+        isRunning = false
     }
 
 }
