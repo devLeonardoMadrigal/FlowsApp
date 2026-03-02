@@ -190,11 +190,11 @@ fun FlowsScreen3(
 
         Text(
             "Flow 1 -> $f1",
-            fontSize = 32.sp)
+            fontSize = 32.sp
+        )
         Spacer(Modifier.size(12.dp))
 
         Button(onClick = {
-            startTimer()////// working on this
             scope.launch {
                 fc.collect {
                     f1 = it
@@ -207,7 +207,8 @@ fun FlowsScreen3(
 
         Text(
             "Flow 2 -> $f2",
-            fontSize = 32.sp)
+            fontSize = 32.sp
+        )
         Spacer(Modifier.size(12.dp))
 
         Button(onClick = {
@@ -218,6 +219,14 @@ fun FlowsScreen3(
             }
         }) {
             Text("Collect for T2", fontSize = 32.sp)
+
+        }
+
+        Button(onClick = {
+
+            startTimer()
+        }) {
+            Text("Start timer", fontSize = 32.sp)
 
         }
 
