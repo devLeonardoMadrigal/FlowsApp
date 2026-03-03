@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.flowsapp.flows.FlowViewModel
+import com.example.flowsapp.mvi.ScreenToggleViewModel
 import com.example.flowsapp.ui.theme.FlowsAppTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -51,6 +52,7 @@ class MainActivity : ComponentActivity() {
         setContent {
 
             val flowVm by viewModels<FlowViewModel>()
+            val vm by viewModels<ScreenToggleViewModel>()
 
             FlowsAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
@@ -58,12 +60,12 @@ class MainActivity : ComponentActivity() {
                         Text("Flows app", fontSize = 36.sp, fontWeight = FontWeight.Bold)
                     })
                 }) {
-                    val fc = flow<Int>{
-                        for (i in 1 until 100){
-                            emit(i)
-                            delay(500)
-                        }
-                    }
+//                    val fc = flow<Int>{
+//                        for (i in 1 until 100){
+//                            emit(i)
+//                            delay(500)
+//                        }
+//                    }
 
                     Column() {
                         Row() {
@@ -78,14 +80,17 @@ class MainActivity : ComponentActivity() {
 //                            )
 
                         }
+//                        Row() {
+//                            FlowsScreen3(
+//                                Modifier,
+//                                flowVm.timer,
+//                                { flowVm.starTimer() },
+//                                {flowVm.stopTimer()}
+//                            )
+//
+//                        }
                         Row() {
-                            FlowsScreen3(
-                                Modifier,
-                                flowVm.timer,
-                                { flowVm.starTimer() },
-                                {flowVm.stopTimer()}
-                            )
-
+                            StateMainScreen(vm)
                         }
 
                     }
@@ -94,6 +99,41 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+}
+
+
+sealed class ScreenToggle(){
+    object GoToA: ScreenToggle()
+    object GoToB: ScreenToggle()
+    object GoToC: ScreenToggle()
+}
+
+
+@Composable
+fun StateMainScreen(screenToggleViewModel: ScreenToggleViewModel){
+
+    val currentState by screenToggleViewModel.currentState.collectAsStateWithLifecycle()
+
+    Column(Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center) {
+
+        val y by remember{ mutableStateOf("zyx") }
+
+        println(y)
+
+        Text("Current Screen: $currentState")
+        Button(onClick = {
+            screenToggleViewModel.toggle(ScreenToggle.GoToB)
+        } ) { Text("Go to B") }
+        Button(onClick = {
+            screenToggleViewModel.toggle(ScreenToggle.GoToC)
+        } ) { Text("Go to C") }
+        Button(onClick = {
+            screenToggleViewModel.toggle(ScreenToggle.GoToA)
+        } ) { Text("Go to A") }
+
+    }
+
 }
 
 @Composable
